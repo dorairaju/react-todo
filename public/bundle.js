@@ -112,7 +112,7 @@
 	$(document).foundation();
 
 	//App.css
-	__webpack_require__(244);
+	__webpack_require__(245);
 
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById("app"));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -26450,12 +26450,15 @@
 	var React = __webpack_require__(8);
 	var TodoList = __webpack_require__(241);
 	var AddTodo = __webpack_require__(243);
+	var TodoSearch = __webpack_require__(244);
 
 	var TodoApp = React.createClass({
 	  displayName: 'TodoApp',
 
 	  getInitialState: function getInitialState() {
 	    return {
+	      showCompleted: false,
+	      searchText: '',
 	      todos: [{
 	        id: 1,
 	        text: 'Walk the dog'
@@ -26477,12 +26480,19 @@
 	  handleAddTodo: function handleAddTodo(text) {
 	    alert("new todo: " + text);
 	  },
+	  handleSearch: function handleSearch(showCompleted, searchText) {
+	    this.setState({
+	      showCompleted: showCompleted,
+	      searchText: searchText.toLowerCase()
+	    });
+	  },
 	  render: function render() {
 	    var todos = this.state.todos;
 
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(TodoSearch, { onSearch: this.handleSearch }),
 	      React.createElement(TodoList, { todos: todos }),
 	      React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
 	    );
@@ -26597,13 +26607,55 @@
 /* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var TodoSearch = React.createClass({
+	  displayName: "TodoSearch",
+
+	  handleSearch: function handleSearch() {
+	    var showCompleted = this.refs.showCompleted.checked;
+	    var searchText = this.refs.searchText.value;
+
+	    this.props.onSearch(showCompleted, searchText);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement("input", { type: "search", ref: "searchText", placeholder: "Search todos", onChange: this.handleSearch })
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "label",
+	          null,
+	          React.createElement("input", { type: "checkbox", ref: "showCompleted", onChange: this.handleSearch }),
+	          "Show completed todos"
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = TodoSearch;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(245);
+	var content = __webpack_require__(246);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(247)(content, {});
+	var update = __webpack_require__(248)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26620,10 +26672,10 @@
 	}
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(246)();
+	exports = module.exports = __webpack_require__(247)();
 	// imports
 
 
@@ -26634,7 +26686,7 @@
 
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports) {
 
 	/*
@@ -26690,7 +26742,7 @@
 
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
